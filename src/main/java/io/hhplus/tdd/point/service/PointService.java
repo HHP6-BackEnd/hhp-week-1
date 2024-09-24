@@ -3,5 +3,6 @@ package io.hhplus.tdd.point.service;
 import io.hhplus.tdd.point.UserPoint;
 
 public interface PointService {
-    UserPoint charge(Long id, long amount);
+    UserPoint charge(long id, long amount);
+    UserPoint use(long id, long amount);
 }

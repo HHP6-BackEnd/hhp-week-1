@@ -13,7 +13,7 @@ public class DefaultUserPointRepository implements UserPointRepository{
     private final UserPointTable userPointTable;
 
     @Override
-    public UserPoint selectById(Long id) {
+    public UserPoint selectById(long id) {
         return userPointTable.selectById(id);
     }
 

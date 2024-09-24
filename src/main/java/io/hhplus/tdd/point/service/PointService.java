@@ -1,5 +1,7 @@
 package io.hhplus.tdd.point.service;
 
-public interface PointService {
+import io.hhplus.tdd.point.UserPoint;
 
+public interface PointService {
+    UserPoint charge(Long id, long amount);
 }

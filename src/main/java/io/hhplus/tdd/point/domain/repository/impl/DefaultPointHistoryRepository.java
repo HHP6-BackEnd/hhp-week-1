@@ -13,15 +13,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DefaultPointHistoryRepository implements PointHistoryRepository {
 
-	private final PointHistoryTable pointHistoryTable;
+    private final PointHistoryTable pointHistoryTable;
 
-	@Override
-	public PointHistory insert(long userId, long amount, TransactionType type, long updateMillis) {
-		return pointHistoryTable.insert(userId, amount, type, updateMillis);
-	}
+    @Override
+    public PointHistory insert(long userId, long amount, TransactionType type, long updateMillis) {
+        return pointHistoryTable.insert(userId, amount, type, updateMillis);
+    }
 
-	@Override
-	public List<PointHistory> selectAllByUserId(long userId) {
-		return pointHistoryTable.selectAllByUserId(userId);
-	}
+    @Override
+    public List<PointHistory> selectAllByUserId(long userId) {
+        return pointHistoryTable.selectAllByUserId(userId);
+    }
 }

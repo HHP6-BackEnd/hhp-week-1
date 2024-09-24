@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 
 class DefaultPointHistoryRepositoryTest {
 
-	@Test
-	void insert() {
-	}
+    @Test
+    void insert() {
+    }
 
-	@Test
-	void selectAllByUserId() {
-	}
+    @Test
+    void selectAllByUserId() {
+    }
 }

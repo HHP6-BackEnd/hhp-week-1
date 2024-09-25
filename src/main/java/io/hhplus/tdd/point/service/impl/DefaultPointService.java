@@ -5,6 +5,7 @@ import io.hhplus.tdd.point.UserPoint;
 import io.hhplus.tdd.point.domain.repository.impl.DefaultPointHistoryRepository;
 import io.hhplus.tdd.point.domain.repository.impl.DefaultUserPointRepository;
 import io.hhplus.tdd.point.service.PointService;
+import io.hhplus.tdd.point.service.PointValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,36 +15,39 @@ public class DefaultPointService implements PointService {
 
     private final DefaultUserPointRepository defaultUserPointRepository;
     private final DefaultPointHistoryRepository defaultPointHistoryRepository;
+    private final PointValidator pointValidator;
 
     @Override
-    public UserPoint charge(long id, long amount) {
-        if (0 >= amount) {
-            throw new IllegalArgumentException("포인트는 0원 이상 충전 되어야 합니다.");
-        }
+    public UserPoint charge(long id, long amount, TransactionType type) {
 
-        long updateAmount =  defaultUserPointRepository.selectById(id).chargePoint(amount);
+        // amount 검증
+        long validChargeAmount =  pointValidator.verifyChargeAmount(amount);
+        // 검증된 amount 를 통한 충전 이후 포인트 총합 계산
+        long calculatedChargePoint =  defaultUserPointRepository.selectById(id).calculateChargePoint(validChargeAmount);
+        // totalPoint 검증
+        long validTotalPoint = pointValidator.verifyChargePoint(calculatedChargePoint);
+        // 최종 검증된 포인트로 업데이트
+        UserPoint returnUserPoint = defaultUserPointRepository.insertOrUpdate(id, validTotalPoint);
 
-        UserPoint updateUserPoint = defaultUserPointRepository.insertOrUpdate(id, updateAmount);
-        defaultPointHistoryRepository.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
+        // 포인트 히스토리 기록
+        defaultPointHistoryRepository.insert(id, amount, type, System.currentTimeMillis());
 
-        return updateUserPoint;
+        return returnUserPoint;
     }
 
     @Override
-    public UserPoint use(long id, long amount) {
+    public UserPoint use(long id, long amount, TransactionType type) {
 
-        if (amount > 5000) {
-            throw new IllegalArgumentException("포인트는 5000원 이상 사용 불가합니다.");
-        }
+        long validUseAmount =  pointValidator.verifyUseAmount(amount);
+        // 검증된 amount 를 통한 충전 이후 포인트 총합 계산
+        long calculatedUsePoint =  defaultUserPointRepository.selectById(id).calculateUsePoint(validUseAmount);
+        // totalPoint 검증
+        long validTotalPoint = pointValidator.verifyUsePoint(calculatedUsePoint);
+        // 최종 검증된 포인트로 업데이트
+        UserPoint updateUserPoint = defaultUserPointRepository.insertOrUpdate(id, validTotalPoint);
 
-        long updateAmount = defaultUserPointRepository.selectById(id).usePoint(amount);
-
-        if (0 > updateAmount) {
-            throw new IllegalArgumentException("포인트는 잔고이상 사용할 수 없습니다.");
-        }
-
-        UserPoint updateUserPoint = defaultUserPointRepository.insertOrUpdate(id, updateAmount);
-        defaultPointHistoryRepository.insert(id, amount, TransactionType.CHARGE, System.currentTimeMillis());
+        // 포인트 히스토리 기록
+        defaultPointHistoryRepository.insert(id, amount, type, System.currentTimeMillis());
 
         return updateUserPoint;
     }

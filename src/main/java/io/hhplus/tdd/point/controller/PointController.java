@@ -24,7 +24,6 @@ public class PointController {
     public UserPoint point(
             @PathVariable("id") long id
     ) {
-        TransactionType type = TransactionType.USE;
         return defaultPointService.selectById(id);
     }
 

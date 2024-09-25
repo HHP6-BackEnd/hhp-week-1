@@ -24,7 +24,7 @@ public class DefaultPointService implements PointService {
     public UserPoint charge(long id, long amount, TransactionType type) {
 
         // amount 검증
-        long validChargeAmount =  pointValidator.verifyChargeAmount(amount);
+        long validChargeAmount = pointValidator.verifyChargeAmount(amount);
         // 검증된 amount 를 통한 충전 이후 포인트 총합 계산
         long calculatedChargePoint =  defaultUserPointRepository.selectById(id).calculateChargePoint(validChargeAmount);
         // totalPoint 검증

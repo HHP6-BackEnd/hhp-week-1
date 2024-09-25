@@ -1,5 +1,6 @@
 package io.hhplus.tdd.point.service.impl;
 
+import io.hhplus.tdd.point.TransactionType;
 import io.hhplus.tdd.point.UserPoint;
 import io.hhplus.tdd.point.domain.repository.impl.DefaultPointHistoryRepository;
 import io.hhplus.tdd.point.domain.repository.impl.DefaultUserPointRepository;
@@ -50,7 +51,7 @@ class DefaultPointServiceTest {
 
         // when
         // 1L 유저 포인트 500충전
-        UserPoint resultUserPoint = defaultPointService.charge(1L, amount);
+        UserPoint resultUserPoint = defaultPointService.charge(1L, amount, TransactionType.CHARGE);
 
         // then
         // 1000 + 500 = 1500 포인트인지 확인
@@ -69,7 +70,7 @@ class DefaultPointServiceTest {
 
         // when
         // 1L 유저 포인트 500충전
-        assertThatThrownBy(() -> defaultPointService.charge(1L, amount))
+        assertThatThrownBy(() -> defaultPointService.charge(1L, amount, TransactionType.CHARGE))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("0원 이상 충전 되어야 합니다.");
 
@@ -90,8 +91,8 @@ class DefaultPointServiceTest {
         given(defaultUserPointRepository.insertOrUpdate(1L, updatePoint)).willReturn(new UserPoint(1L, updatePoint, System.currentTimeMillis()));
 
         // when
-        // 1L 유저 포인트 500충전
-        UserPoint resultUserPoint = defaultPointService.use(1L, amount);
+        // 1L 유저 포인트 500사용
+        UserPoint resultUserPoint = defaultPointService.use(1L, amount, TransactionType.USE);
 
         // then
         // 1000 + 500 = 1500 포인트인지 확인
@@ -109,7 +110,7 @@ class DefaultPointServiceTest {
 
         // when
         // 1L 유저 포인트 5001 사용
-        assertThatThrownBy(() -> defaultPointService.use(1L, amount))
+        assertThatThrownBy(() -> defaultPointService.use(1L, amount, TransactionType.USE))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("포인트는 5000원 이상 사용 불가합니다.");
 
@@ -126,7 +127,7 @@ class DefaultPointServiceTest {
 
         // when
         // 1L 유저 포인트 1001 사용
-        assertThatThrownBy(() -> defaultPointService.use(1L, amount))
+        assertThatThrownBy(() -> defaultPointService.use(1L, amount, TransactionType.USE))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("포인트는 잔고이상 사용할 수 없습니다.");
 

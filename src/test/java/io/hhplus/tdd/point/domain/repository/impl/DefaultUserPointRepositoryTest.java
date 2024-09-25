@@ -26,7 +26,7 @@ class DefaultUserPointRepositoryTest {
 
     @Test
     @DisplayName("해당 ID의 UserPoint 조회")
-    void selectByIdTest() {
+    void testSelectByIdTest() {
 
         UserPoint userPoint = new UserPoint(1L, 1000L, System.currentTimeMillis());
 
@@ -44,7 +44,7 @@ class DefaultUserPointRepositoryTest {
 
     @Test
     @DisplayName("해당 ID의 UserPoint 새로추가")
-    void insertTest() {
+    void testInsert() {
 
         // given
         given(userPointTable.insertOrUpdate(anyLong(), anyLong())).willAnswer(item -> {

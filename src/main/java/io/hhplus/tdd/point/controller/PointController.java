@@ -24,7 +24,7 @@ public class PointController {
      */
     @GetMapping("{id}")
     public UserPoint point(
-            @PathVariable long id
+            @PathVariable("id") long id
     ) {
         TransactionType type = TransactionType.USE;
         return new UserPoint(0, 0, 0);
@@ -35,7 +35,7 @@ public class PointController {
      */
     @GetMapping("{id}/histories")
     public List<PointHistory> history(
-            @PathVariable long id
+            @PathVariable("id") long id
     ) {
         return List.of();
     }
@@ -45,7 +45,7 @@ public class PointController {
      */
     @PatchMapping("{id}/charge")
     public UserPoint charge(
-            @PathVariable long id,
+            @PathVariable("id") long id,
             @RequestBody long amount
     ) {
         return defaultPointService.charge(id, amount, TransactionType.CHARGE);
@@ -56,7 +56,7 @@ public class PointController {
      */
     @PatchMapping("{id}/use")
     public UserPoint use(
-            @PathVariable long id,
+            @PathVariable("id") long id,
             @RequestBody long amount
     ) {
         return defaultPointService.use(id, amount, TransactionType.USE);

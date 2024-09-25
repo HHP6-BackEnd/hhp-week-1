@@ -3,7 +3,7 @@
 #### 요구사항
 point 패키지의 TODO 와 테스트코드를 작성해주세요.
 
-- PATCH /point/{id}/charge : 포인트를 충전한다.
+- PATCH /point/{id}/charge : 포인트를 충전한다. 
 - PATCH /point/{id}/use : 포인트를 사용한다.
 - GET /point/{id} : 포인트를 조회한다.
 - GET /point/{id}/histories : 포인트 내역을 조회한다.
@@ -13,8 +13,8 @@ point 패키지의 TODO 와 테스트코드를 작성해주세요.
 
 #### `Default`
 
-- `/point` 패키지 (디렉토리) 내에 `PointService` 기본 기능 작성
-- `/database` 패키지의 구현체는 수정하지 않고, 이를 활용해 기능을 구현
+- ✅`/point` 패키지 (디렉토리) 내에 `PointService` 기본 기능 작성
+- ✅`/database` 패키지의 구현체는 수정하지 않고, 이를 활용해 기능을 구현
 - 각 기능에 대한 단위 테스트 작성
 
 > 총 4가지 기본 기능 (포인트 조회, 포인트 충전/사용 내역 조회, 충전, 사용) 을 구현합니다.

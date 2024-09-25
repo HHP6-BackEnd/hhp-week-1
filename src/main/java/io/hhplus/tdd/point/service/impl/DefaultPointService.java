@@ -1,5 +1,6 @@
 package io.hhplus.tdd.point.service.impl;
 
+import io.hhplus.tdd.point.PointHistory;
 import io.hhplus.tdd.point.TransactionType;
 import io.hhplus.tdd.point.UserPoint;
 import io.hhplus.tdd.point.domain.repository.impl.DefaultPointHistoryRepository;
@@ -8,6 +9,8 @@ import io.hhplus.tdd.point.service.PointService;
 import io.hhplus.tdd.point.service.PointValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -50,5 +53,15 @@ public class DefaultPointService implements PointService {
         defaultPointHistoryRepository.insert(id, amount, type, System.currentTimeMillis());
 
         return updateUserPoint;
+    }
+
+    @Override
+    public UserPoint selectById(long id) {
+        return defaultUserPointRepository.selectById(id);
+    }
+
+    @Override
+    public List<PointHistory> selectAllByUserId(long userId) {
+        return defaultPointHistoryRepository.selectAllByUserId(userId);
     }
 }

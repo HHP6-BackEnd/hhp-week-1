@@ -60,11 +60,11 @@ public class DefaultPointService implements PointService {
 
         try {
 
-        long validUseAmount =  pointValidator.verifyUseAmount(amount);
-        // 검증된 amount 를 통한 충전 이후 포인트 총합 계산
-        long calculatedUsePoint =  defaultUserPointRepository.selectById(id).calculateUsePoint(validUseAmount);
-        // totalPoint 검증
-        long validTotalPoint = pointValidator.verifyUsePoint(calculatedUsePoint);
+            long validUseAmount =  pointValidator.verifyUseAmount(amount);
+            // 검증된 amount 를 통한 충전 이후 포인트 총합 계산
+            long calculatedUsePoint =  defaultUserPointRepository.selectById(id).calculateUsePoint(validUseAmount);
+            // totalPoint 검증
+            long validTotalPoint = pointValidator.verifyUsePoint(calculatedUsePoint);
 
             // 최종 검증된 포인트로 업데이트
             UserPoint updateUserPoint = defaultUserPointRepository.insertOrUpdate(id, validTotalPoint);

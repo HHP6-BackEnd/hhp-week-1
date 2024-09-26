@@ -56,12 +56,12 @@ public class DefaultPointService implements PointService {
     }
 
     @Override
-    public UserPoint selectById(long id) {
+    public UserPoint getUserPoint(long id) {
         return defaultUserPointRepository.selectById(id);
     }
 
     @Override
-    public List<PointHistory> selectAllByUserId(long userId) {
+    public List<PointHistory> getUserPointHistories(long userId) {
         return defaultPointHistoryRepository.selectAllByUserId(userId);
     }
 }

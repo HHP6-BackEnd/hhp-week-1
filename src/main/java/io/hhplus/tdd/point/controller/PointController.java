@@ -24,7 +24,7 @@ public class PointController {
     public UserPoint point(
             @PathVariable("id") long id
     ) {
-        return defaultPointService.selectById(id);
+        return defaultPointService.getUserPoint(id);
     }
 
     // 특정 유저의 포인트 충전/이용 내역을 조회
@@ -32,7 +32,7 @@ public class PointController {
     public List<PointHistory> history(
             @PathVariable("id") long id
     ) {
-        return defaultPointService.selectAllByUserId(id);
+        return defaultPointService.getUserPointHistories(id);
     }
 
     // 특정 유저의 포인트를 충전하는 기능

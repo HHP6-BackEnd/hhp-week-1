@@ -9,6 +9,6 @@ import java.util.List;
 public interface PointService {
     UserPoint charge(long id, long amount, TransactionType type);
     UserPoint use(long id, long amount, TransactionType type);
-    UserPoint selectById(long id);
-    List<PointHistory> selectAllByUserId(long userId);
+    UserPoint getUserPoint(long id);
+    List<PointHistory> getUserPointHistories(long userId);
 }

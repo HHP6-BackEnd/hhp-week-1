@@ -38,16 +38,16 @@ class PointValidatorTest {
     }
 
     @Test
-    @DisplayName("충전 amount가 2500 일때 검증 시 검증 실패하고 예외 반환")
+    @DisplayName("충전 amount가 5500 일때 검증 시 검증 실패하고 예외 반환")
     public void testVerifyChargeAmountOverMaxLimit() {
         // given
-        long amount = 2500L;
+        long amount = 5500L;
 
         // when
-        // 충전정책 - 1회 최대 2000포인트 까지 충전가능
+        // 충전정책 - 1회 최대 5000포인트 까지 충전가능
         assertThatThrownBy(() -> pointValidator.verifyChargeAmount(amount))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("1회 최대 충전한도는 2000포인트 입니다.");
+                .hasMessageContaining("1회 최대 충전한도는 5000포인트 입니다.");
     }
 
     @Test

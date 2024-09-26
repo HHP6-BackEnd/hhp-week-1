@@ -1,4 +1,4 @@
-package io.hhplus.tdd.point.service;
+package io.hhplus.tdd.point;
 
 import org.springframework.stereotype.Component;
 

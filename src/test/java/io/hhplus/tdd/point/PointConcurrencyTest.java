@@ -17,29 +17,53 @@ public class PointConcurrencyTest {
     PointService pointService;
 
     @Test
-    @DisplayName("")
-    void 비동기_test1() {
+    @DisplayName("유저 1의 포인트 충전, 사용이 비동기적으로 요청 될 때, 순차적으로 처리 되는지 확인")
+    void concurrencyOneUserAsyncIntegrationTest() {
 
         // given
         CompletableFuture.allOf(
-                CompletableFuture.supplyAsync(() -> pointService.charge(1L, 1000L)).thenAccept(result -> System.out.println("Result: " + result)),
-                CompletableFuture.supplyAsync(() -> pointService.charge(1L, 1000L)).thenAccept(result -> System.out.println("Result: " + result)),
-                CompletableFuture.supplyAsync(() -> pointService.use(1L, 500L)).thenAccept(result -> System.out.println("Result: " + result)),
-                CompletableFuture.supplyAsync(() -> pointService.use(1L, 500L)).thenAccept(result -> System.out.println("Result: " + result)),
-                CompletableFuture.runAsync(() -> pointService.charge(2L, 500L)).thenAccept(result -> System.out.println("Result: " + result)),
-                CompletableFuture.runAsync(() -> pointService.charge(2L, 1500L)).thenAccept(result -> System.out.println("Result: " + result)),
-                CompletableFuture.runAsync(() -> pointService.use(2L, 500L)).thenAccept(result -> System.out.println("Result: " + result)),
-                CompletableFuture.runAsync(() -> pointService.use(2L, 1000L)).thenAccept(result -> System.out.println("Result: " + result))
+                CompletableFuture.supplyAsync(() -> pointService.charge(1L, 1000L)).thenAccept(System.out::println),
+                CompletableFuture.supplyAsync(() -> pointService.charge(1L, 1000L)).thenAccept(System.out::println),
+                CompletableFuture.supplyAsync(() -> pointService.use(1L, 500L)).thenAccept(System.out::println),
+                CompletableFuture.supplyAsync(() -> pointService.use(1L, 500L)).thenAccept(System.out::println),
+                CompletableFuture.supplyAsync(() -> pointService.charge(1L, 1000L)).thenAccept(System.out::println),
+                CompletableFuture.supplyAsync(() -> pointService.charge(1L, 1000L)).thenAccept(System.out::println),
+                CompletableFuture.supplyAsync(() -> pointService.use(1L, 500L)).thenAccept(System.out::println),
+                CompletableFuture.supplyAsync(() -> pointService.use(1L, 500L)).thenAccept(System.out::println)
         ).join();
 
         // when
         long resultFirstUserPoint = pointService.getUserPoint(1L).point();
-        long resultSecondUserPoint = pointService.getUserPoint(2L).point();
 
         // then
         pointService.getUserPointHistories(1L).forEach(System.out::println);
+        assertThat(resultFirstUserPoint).isEqualTo( 1000 + 1000 - 500 - 500 + 1000 + 1000 - 500 - 500);
+    }
+
+    @Test
+    @DisplayName("유저 2와 유저3의 포인트 충전, 사용이 비동기적으로 요청 될 때, 순차적으로 처리 되는지 확인")
+    void concurrencyTwoUserAsyncIntegrationTest() {
+
+        // given
+        CompletableFuture.allOf(
+                CompletableFuture.supplyAsync(() -> pointService.charge(2L, 1000L)).thenAccept(System.out::println),
+                CompletableFuture.supplyAsync(() -> pointService.charge(3L, 1000L)).thenAccept(System.out::println),
+                CompletableFuture.supplyAsync(() -> pointService.use(2L, 500L)).thenAccept(System.out::println),
+                CompletableFuture.supplyAsync(() -> pointService.use(3L, 500L)).thenAccept(System.out::println),
+                CompletableFuture.supplyAsync(() -> pointService.charge(2L, 1000L)).thenAccept(System.out::println),
+                CompletableFuture.supplyAsync(() -> pointService.charge(3L, 1000L)).thenAccept(System.out::println),
+                CompletableFuture.supplyAsync(() -> pointService.use(2L, 500L)).thenAccept(System.out::println),
+                CompletableFuture.supplyAsync(() -> pointService.use(3L, 500L)).thenAccept(System.out::println)
+        ).join();
+
+        // when
+        long resultFirstUserPoint = pointService.getUserPoint(2L).point();
+        long resultSecondUserPoint = pointService.getUserPoint(3L).point();
+
+        // then
         pointService.getUserPointHistories(2L).forEach(System.out::println);
-        assertThat(resultFirstUserPoint).isEqualTo( 1000 + 1000 -500 - 500);
-        assertThat(resultSecondUserPoint).isEqualTo( 2000 + 500 + 1500 - 500 - 1000);
+        pointService.getUserPointHistories(3L).forEach(System.out::println);
+        assertThat(resultFirstUserPoint).isEqualTo( 1000 - 500 + 1000 - 500);
+        assertThat(resultSecondUserPoint).isEqualTo( 1000 - 500 + 1000 - 500);
     }
 }

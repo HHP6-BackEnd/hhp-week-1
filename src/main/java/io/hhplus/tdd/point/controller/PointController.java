@@ -1,7 +1,6 @@
 package io.hhplus.tdd.point.controller;
 
 import io.hhplus.tdd.point.PointHistory;
-import io.hhplus.tdd.point.TransactionType;
 import io.hhplus.tdd.point.UserPoint;
 import io.hhplus.tdd.point.service.impl.DefaultPointService;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +40,7 @@ public class PointController {
             @PathVariable("id") long id,
             @RequestBody long amount
     ) {
-        return defaultPointService.charge(id, amount, TransactionType.CHARGE);
+        return defaultPointService.charge(id, amount);
     }
 
     // 특정 유저의 포인트를 사용하는 기능
@@ -50,6 +49,6 @@ public class PointController {
             @PathVariable("id") long id,
             @RequestBody long amount
     ) {
-        return defaultPointService.use(id, amount, TransactionType.USE);
+        return defaultPointService.use(id, amount);
     }
 }

@@ -1,4 +1,4 @@
-package io.hhplus.tdd.point.service;
+package io.hhplus.tdd.point;
 
 import org.springframework.stereotype.Component;
 
@@ -13,9 +13,9 @@ public class PointValidator {
             throw new IllegalArgumentException("0 보다 큰 포인트를 충전해야 합니다.");
         }
 
-        // 한번의 충전되는 2000 포인트 이상 충전 불가
-        if (amount > 2000) {
-            throw new IllegalArgumentException("1회 최대 충전한도는 2000포인트 입니다.");
+        // 한번의 충전되는 5000 포인트 이상 충전 불가
+        if (amount > 5000) {
+            throw new IllegalArgumentException("1회 최대 충전한도는 5000포인트 입니다.");
         }
 
         return amount;

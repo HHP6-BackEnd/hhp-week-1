@@ -1,7 +1,6 @@
 package io.hhplus.tdd.point.controller;
 
 import io.hhplus.tdd.point.PointHistory;
-import io.hhplus.tdd.point.TransactionType;
 import io.hhplus.tdd.point.UserPoint;
 import io.hhplus.tdd.point.service.impl.DefaultPointService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class PointController {
     public UserPoint point(
             @PathVariable("id") long id
     ) {
-        return defaultPointService.selectById(id);
+        return defaultPointService.getUserPoint(id);
     }
 
     // 특정 유저의 포인트 충전/이용 내역을 조회
@@ -32,7 +31,7 @@ public class PointController {
     public List<PointHistory> history(
             @PathVariable("id") long id
     ) {
-        return defaultPointService.selectAllByUserId(id);
+        return defaultPointService.getUserPointHistories(id);
     }
 
     // 특정 유저의 포인트를 충전하는 기능
@@ -41,7 +40,7 @@ public class PointController {
             @PathVariable("id") long id,
             @RequestBody long amount
     ) {
-        return defaultPointService.charge(id, amount, TransactionType.CHARGE);
+        return defaultPointService.charge(id, amount);
     }
 
     // 특정 유저의 포인트를 사용하는 기능
@@ -50,6 +49,6 @@ public class PointController {
             @PathVariable("id") long id,
             @RequestBody long amount
     ) {
-        return defaultPointService.use(id, amount, TransactionType.USE);
+        return defaultPointService.use(id, amount);
     }
 }

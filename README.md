@@ -18,50 +18,6 @@ point 패키지의 TODO 와 테스트코드를 작성해주세요.
 - ✅ 각 기능에 대한 단위 테스트 작성
 
 ✅총 4가지 기본 기능 (포인트 조회, 포인트 충전/사용 내역 조회, 충전, 사용) 을 구현합니다.
-```java
-[PATCH] localhost:8080/point/1/charge
-        
-{
-    "id": 1,
-    "point": 1000,
-    "updateMillis": 1727284566542
-}
-
-[PATCH] localhost:8080/point/1/use
-        
-{
-    "id": 1,
-    "point": 500,
-    "updateMillis": 1727284599015
-}
-
-[GET] localhost:8080/point/1
-        
-{
-    "id": 1,
-    "point": 500,
-    "updateMillis": 1727284599015
-}
-
-[GET] localhost:8080/point/1/histories
-
-[
-    {
-        "id": 1,
-        "userId": 1,
-        "amount": 1000,
-        "type": "CHARGE",
-        "updateMillis": 1727284566542
-    },
-    {
-        "id": 2,
-        "userId": 1,
-        "amount": 500,
-        "type": "USE",
-        "updateMillis": 1727284599015
-    }
-]
-
 
 ```
 
